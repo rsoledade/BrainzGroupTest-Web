@@ -1,12 +1,13 @@
 # Brainz Group - Front End
 
-Sistema desenvolvido com React, TypeScript, Vite e Tailwind CSS inspirado no template do Brainz Group.
+Sistema desenvolvido com React, TypeScript, Vite e Tailwind CSS para gerenciamento de estudantes e eventos.
 
 ## 📋 Pré-requisitos
 
 Antes de começar, você precisa ter instalado:
 - **Node.js 18+** (recomendado) - [Download aqui](https://nodejs.org/)
 - Ou **Bun** (alternativa mais rápida) - [Instruções aqui](https://bun.sh/)
+- **Backend rodando** na porta 5031 (http://localhost:5031)
 
 > ⚠️ **Importante**: Se você não tem nenhum gerenciador de pacotes instalado, instale o Node.js primeiro e reinicie o terminal.
 
@@ -124,14 +125,22 @@ Front/
 
 ### 🔐 Credenciais de Teste
 
-O sistema possui **autenticação simulada (mock)**. Use qualquer email válido e senha com mais de 6 caracteres:
+O sistema está integrado com a API backend. Use as credenciais fornecidas:
 
 ```
-📧 Email: teste@exemplo.com
+📧 Email: admin@school.local
 🔒 Senha: 123456
 ```
 
-Ou qualquer outra combinação válida (email formato correto + senha 6+ caracteres).
+> ⚠️ **Importante**: O backend precisa estar rodando em http://localhost:5031 para a autenticação funcionar.
+
+### ⚙️ Configuração da API
+
+Crie um arquivo `.env` na raiz do projeto (copie de `.env.example`):
+
+```bash
+VITE_API_URL=http://localhost:5031/api
+```
 
 ## 🛠️ Tecnologias Utilizadas
 

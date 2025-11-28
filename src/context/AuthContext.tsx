@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
+import { api, ApiError } from '@/services/api'
 
 interface User {
   id: string
@@ -9,6 +10,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null
+  token: string | null
   isAuthenticated: boolean
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
@@ -19,33 +21,41 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
+  const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user')
-    if (storedUser) {
+    const storedToken = localStorage.getItem('token')
+    
+    if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser))
+      setToken(storedToken)
     }
     setIsLoading(false)
   }, [])
 
-  async function login(email: string, _password: string) {
+  async function login(email: string, password: string) {
     setIsLoading(true)
     try {
-      // Simular chamada API
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      const response = await api.login({ email, password })
       
-      // Mock de usuário
-      const mockUser: User = {
-        id: '1',
-        name: 'Usuário Teste',
+      // Criar objeto de usuário com os dados do email
+      const userData: User = {
+        id: email, // Temporariamente usando email como ID até termos mais dados
+        name: email.split('@')[0],
         email: email,
       }
       
-      setUser(mockUser)
-      localStorage.setItem('user', JSON.stringify(mockUser))
+      setUser(userData)
+      setToken(response.token)
+      localStorage.setItem('user', JSON.stringify(userData))
+      localStorage.setItem('token', response.token)
     } catch (error) {
-      throw new Error('Falha ao fazer login')
+      if (error instanceof ApiError) {
+        throw new Error(error.message)
+      }
+      throw new Error('Falha ao fazer login. Verifique sua conexão.')
     } finally {
       setIsLoading(false)
     }
@@ -53,13 +63,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   function logout() {
     setUser(null)
+    setToken(null)
     localStorage.removeItem('user')
+    localStorage.removeItem('token')
   }
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        token,
         isAuthenticated: !!user,
         isLoading,
         login,

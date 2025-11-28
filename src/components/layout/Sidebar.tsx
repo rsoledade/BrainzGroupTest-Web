@@ -18,6 +18,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const menuItems = [
     { label: 'Dashboard', href: '/dashboard', icon: '📊' },
+    { label: 'Estudantes', href: '/dashboard/students', icon: '🎓' },
     { label: 'Escolas', href: '/dashboard/schools', icon: '🏫' },
     { label: 'Usuários', href: '/dashboard/users', icon: '👥' },
     { label: 'Relatórios', href: '/dashboard/reports', icon: '📈' },

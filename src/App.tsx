@@ -5,6 +5,7 @@ import { HomePage } from '@/pages/home/HomePage'
 import { LoginPage } from '@/pages/login/LoginPage'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { DashboardPage } from '@/pages/dashboard/DashboardPage'
+import { StudentsPage } from '@/pages/students/StudentsPage'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             }
           >
             <Route index element={<DashboardPage />} />
+            <Route path="students" element={<StudentsPage />} />
             <Route path="schools" element={<div className="text-2xl">Escolas (Em desenvolvimento)</div>} />
             <Route path="users" element={<div className="text-2xl">Usuários (Em desenvolvimento)</div>} />
             <Route path="reports" element={<div className="text-2xl">Relatórios (Em desenvolvimento)</div>} />

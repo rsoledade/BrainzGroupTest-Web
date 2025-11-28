@@ -62,6 +62,8 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           }
         })
         setErrors(fieldErrors)
+      } else if (error instanceof Error) {
+        setSubmitError(error.message)
       } else {
         setSubmitError('Erro ao fazer login. Tente novamente.')
       }
